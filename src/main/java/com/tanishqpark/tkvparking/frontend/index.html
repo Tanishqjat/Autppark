@@ -1,0 +1,736 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Slot Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #responseMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parking Slot Booking</h1>
+        <form id="bookingForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="carNumber">Car Number:</label>
+            <input type="text" id="carNumber" name="carNumber" required>
+
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="arrivalTime">Arrival Time:</label>
+            <input type="datetime-local" id="arrivalTime" name="arrivalTime" required>
+
+            <label for="departureTime">Departure Time:</label>
+            <input type="datetime-local" id="departureTime" name="departureTime" required>
+
+            <button type="submit">Book Slot</button>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const bookingData = {
+                name: document.getElementById('name').value,
+                carNumber: document.getElementById('carNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                email: document.getElementById('email').value, // Added email
+                arrivalTime: document.getElementById('arrivalTime').value,
+                departureTime: document.getElementById('departureTime').value,
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/parking-slots', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bookingData),
+                });
+
+                const message = document.getElementById('responseMessage');
+                if (response.ok) {
+                    message.style.color = 'green';
+                    message.textContent = 'Parking slot booked successfully!';
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = 'Failed to book the parking slot. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error connecting to the backend.');
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Slot Booking</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://source.unsplash.com/1600x900/?parking,city') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideDown 1s ease-out;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        button {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 1.5s infinite;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            transform: scale(1.05);
+        }
+
+        #responseMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Autopark</h1>
+        <h3>Apki gaddi hamare pass safe hai !</h3>
+        <form id="bookingForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="carNumber">Car Number:</label>
+            <input type="text" id="carNumber" name="carNumber" placeholder="e.g. MP04XX0000" required>
+
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+
+            <label for="arrivalTime">Arrival Time:</label>
+            <input type="datetime-local" id="arrivalTime" name="arrivalTime" required>
+
+            <label for="departureTime">Departure Time:</label>
+            <input type="datetime-local" id="departureTime" name="departureTime" required>
+
+            <button type="submit">Book Slot</button>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const bookingData = {
+                name: document.getElementById('name').value,
+                carNumber: document.getElementById('carNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                email: document.getElementById('email').value,
+                arrivalTime: document.getElementById('arrivalTime').value,
+                departureTime: document.getElementById('departureTime').value,
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/parking-slots', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bookingData),
+                });
+
+                const message = document.getElementById('responseMessage');
+                if (response.ok) {
+                    message.style.color = 'green';
+                    message.textContent = 'Parking slot booked successfully!';
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = 'Failed to book the parking slot. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error connecting to the backend.');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Slot Booking</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://source.unsplash.com/1920x1080/?parking,city') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            margin: 100px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.2s ease;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #00d4ff;
+            text-shadow: 2px 2px 8px rgba(0, 212, 255, 0.5);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #dddddd;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+            color: #00c6ff;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        input::placeholder {
+            color: #bbbbbb;
+        }
+
+        input:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+        }
+
+        button {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 255, 0.3);
+        }
+
+        #responseMessage {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 150%;
+            text-align: center;
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Autopark</h1>
+        <h3>Your car, our care.</h3>
+        <form id="bookingForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="carNumber">Car Number</label>
+            <input type="text" id="carNumber" name="carNumber" placeholder="e.g. MP04XX0000" required>
+
+            <label for="mobileNumber">Mobile Number</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+
+            <label for="arrivalTime">Arrival Time</label>
+            <input type="datetime-local" id="arrivalTime" name="arrivalTime" required>
+
+            <label for="departureTime">Departure Time</label>
+            <input type="datetime-local" id="departureTime" name="departureTime" required>
+
+            <button type="submit">Book Slot</button>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+    <footer>
+        &copy; 2025 Autopark - Designed with care.
+    </footer>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const bookingData = {
+                name: document.getElementById('name').value,
+                carNumber: document.getElementById('carNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                email: document.getElementById('email').value,
+                arrivalTime: document.getElementById('arrivalTime').value,
+                departureTime: document.getElementById('departureTime').value,
+            };
+
+            const message = document.getElementById('responseMessage');
+
+            try {
+                const response = await fetch('http://localhost:8080/api/parking-slots', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData),
+                });
+
+                if (response.ok) {
+                    message.style.color = 'lightgreen';
+                    message.textContent = 'Parking slot booked successfully!';
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = 'Failed to book the parking slot. Please try again.';
+                }
+            } catch (error) {
+                message.style.color = 'red';
+                message.textContent = 'Error connecting to the backend.';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autopark - Book Your Parking Slot</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://source.unsplash.com/1920x1080/?parking,night');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.2s ease;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #00c6ff;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0, 198, 255, 0.5);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #00c6ff;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #bbbbbb;
+        }
+
+        input:focus {
+            box-shadow: 0 0 12px rgba(0, 198, 255, 0.8);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        button {
+            padding: 12px;
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.8);
+        }
+
+        #responseMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: opacity 0.5s ease;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Autopark</h1>
+        <h3>Your car, our responsibility.</h3>
+        <form id="bookingForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="carNumber">Car Number</label>
+            <input type="text" id="carNumber" name="carNumber" placeholder="e.g. MP04XX0000" required>
+
+            <label for="mobileNumber">Mobile Number</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="arrivalTime">Arrival Time</label>
+            <input type="datetime-local" id="arrivalTime" name="arrivalTime" required>
+
+            <label for="departureTime">Departure Time</label>
+            <input type="datetime-local" id="departureTime" name="departureTime" required>
+
+            <button type="submit">Book Slot</button>
+        </form>
+        <p id="responseMessage"></p>
+        <footer>&copy; 2025 Autopark - Parking Made Easy</footer>
+    </div>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const bookingData = {
+                name: document.getElementById('name').value,
+                carNumber: document.getElementById('carNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                email: document.getElementById('email').value,
+                arrivalTime: document.getElementById('arrivalTime').value,
+                departureTime: document.getElementById('departureTime').value,
+            };
+
+            const message = document.getElementById('responseMessage');
+            try {
+                const response = await fetch('http://localhost:8080/api/parking-slots', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData),
+                });
+
+                if (response.ok) {
+                    message.style.color = 'lightgreen';
+                    message.textContent = 'Slot booked successfully!';
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = 'Booking failed. Try again.';
+                }
+            } catch (error) {
+                message.style.color = 'red';
+                message.textContent = 'Error connecting to server.';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
